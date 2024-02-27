@@ -14,9 +14,22 @@ Android Automotive OS plugin
 
 ```dart
 final _flutterAaosPlugin = FlutterAaos();
-_flutterAaosPlugin.currentCarGear.listen((event) {
-      setState(() {
-        _speed = event.toString();
+getCarData() async {
+    // list all available properties 
+    carData = await _flutterAaosPlugin.propertyList;
+
+    for (var item in carData!) {
+      int id = item["id"];
+      // listen to the property value change
+      Stream s = await _flutterAaosPlugin.listenProperty(id);
+      s.listen((event) {
+        setState(() {
+          item["value"] = event.toString();
+        });
       });
-    });
+    }
+  }
 ```
+
+<img src="image.png" alt="drawing" width="800"/>
+

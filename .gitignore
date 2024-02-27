@@ -30,3 +30,4 @@ build/
 example/android/app/pkg/
 example/android/app/bin/
 example/.vscode/
+.vscode/launch.json

@@ -1,9 +1,11 @@
 package com.mt.flutter_aaos
 
+import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import kotlin.test.Test
 import org.mockito.Mockito
+
 
 /*
  * This demonstrates a simple unit test of the Kotlin portion of this plugin's implementation.
@@ -14,11 +16,12 @@ import org.mockito.Mockito
  */
 
 internal class FlutterAaosPluginTest {
+
   @Test
   fun onMethodCall_getPlatformVersion_returnsExpectedValue() {
     val plugin = FlutterAaosPlugin()
 
-    val call = MethodCall("platformVersion", null)
+    val call = MethodCall("getPlatformVersion", null)
     val mockResult: MethodChannel.Result = Mockito.mock(MethodChannel.Result::class.java)
     plugin.onMethodCall(call, mockResult)
 

@@ -19,12 +19,32 @@ class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
   String _speed = '0.0';
   final _flutterAaosPlugin = FlutterAaos();
+  List? carData;
 
   @override
   void initState() {
     super.initState();
     initPlatformState();
-    _flutterAaosPlugin.currentCarGear.listen((event) {
+    listenSpeed();
+  }
+
+  getCarData() async {
+    carData = await _flutterAaosPlugin.propertyList;
+
+    for (var item in carData!) {
+      int id = item["id"];
+      Stream s = await _flutterAaosPlugin.listenProperty(id);
+      s.listen((event) {
+        setState(() {
+          item["value"] = event.toString();
+        });
+      });
+    }
+  }
+
+  listenSpeed() async {
+    Stream s = await _flutterAaosPlugin.listenProperty(291504647);
+    s.listen((event) {
       setState(() {
         _speed = event.toString();
       });
@@ -65,6 +85,25 @@ class _MyAppState extends State<MyApp> {
             children: [
               Text('Running on: $_platformVersion\n'),
               Text('Speed on: $_speed\n'),
+              Row(
+                children: [
+                  ElevatedButton(
+                      onPressed: () {
+                        getCarData();
+                      },
+                      child: const Text("Properties"))
+                ],
+              ),
+              Wrap(children: [
+                if (carData != null)
+                  for (var item in carData!)
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      child: Text(
+                        "${item["name"]} : ${item["value"]}",
+                      ),
+                    )
+              ]),
             ],
           ),
         ),
