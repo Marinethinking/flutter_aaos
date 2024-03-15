@@ -33,3 +33,13 @@ getCarData() async {
 
 <img src="https://github.com/Marinethinking/flutter_aaos/blob/main/image.png?raw=true" alt="drawing" width="800"/>
 
+## Android Config
+
+Add permissions you need in android/src/main/AndroidManifest.xml
+Example:
+
+```xml
+<uses-permission android:name="android.car.permission.CAR_POWERTRAIN" />
+<uses-permission android:name="android.car.permission.CAR_SPEED" />
+<uses-permission android:name="android.car.permission.CAR_ENERGY" />
+```
