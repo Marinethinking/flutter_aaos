@@ -46,10 +46,17 @@ class FlutterAaosPlugin : FlutterPlugin,
         if (call.method == "getPlatformVersion") {
             result.success("Android " + Build.VERSION.RELEASE)
         } else if (call.method == "getPropertyList") {
-            var props = getProperties()
+            val props = getProperties()
             result.success(props)
 
-        } else if (call.method == "listenProperty") {
+        } else if (call.method == "getProperty") {
+            val propertyId = call.argument<Int>("propertyId")
+            val areaId = call.argument<Int>("areaId")
+
+            val prop = getProperty(propertyId!!, areaId!!)
+            Log.d("MainActivity",prop.toString())
+            result.success(prop.value)
+        }else if (call.method == "listenProperty") {
             val propertyId = call.argument<Int>("propertyId")
             listenProperty(propertyId)
             result.success("Listening to property ${propertyId} ")
@@ -71,6 +78,10 @@ class FlutterAaosPlugin : FlutterPlugin,
             propList.add(mapOf("id" to prop.propertyId, "name" to field.name))
         }
         return propList
+    }
+
+    private fun getProperty( propertyId:Int,   areaId:Int): CarPropertyValue<Any> {
+        return carPropertyManager!!.getProperty<Any>(propertyId,areaId);
     }
 
     override fun onDetachedFromEngine(binding: FlutterPluginBinding) {

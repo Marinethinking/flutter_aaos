@@ -13,7 +13,11 @@ class FlutterAaos {
     return version;
   }
 
-  // Stream get currentCarGear => _carGearEventChannel.receiveBroadcastStream();
+  getProperty(int propertyId, int areaId) async {
+    var prop = await methodChannel.invokeMethod(
+        'getProperty', {"propertyId": propertyId, "areaId": areaId});
+    return prop;
+  }
 
   Future<List?> get propertyList async {
     final List? version = await methodChannel.invokeMethod('getPropertyList');

@@ -28,6 +28,12 @@ class _MyAppState extends State<MyApp> {
     listenSpeed();
   }
 
+  getProperty() async {
+    //555749208
+    var prop = await _flutterAaosPlugin.getProperty(291504647, 0);
+    print(prop);
+  }
+
   getCarData() async {
     carData = await _flutterAaosPlugin.propertyList;
 
@@ -91,7 +97,12 @@ class _MyAppState extends State<MyApp> {
                       onPressed: () {
                         getCarData();
                       },
-                      child: const Text("Properties"))
+                      child: const Text("Properties")),
+                  ElevatedButton(
+                      onPressed: () {
+                        getProperty();
+                      },
+                      child: const Text("Property"))
                 ],
               ),
               Wrap(children: [
